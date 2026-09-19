@@ -37,7 +37,7 @@ Delve ships from [snacbot/delve-releases](https://github.com/snacbot/delve-relea
 Delve auto-updates through Sparkle, so its cask is `auto_updates true` and Homebrew stays out of the in-app updater's way. The cask still needs a version and sha bump each release so fresh installs land on the current build.
 
 ```sh
-VERSION=0.8.18
+VERSION=0.9.0
 SHA=$(curl -sL "https://github.com/snacbot/delve-releases/releases/download/v$VERSION/Delve-$VERSION.dmg" | shasum -a 256 | cut -d' ' -f1)
 sed -i '' "s/version \".*\"/version \"$VERSION\"/; s/sha256 \".*\"/sha256 \"$SHA\"/" Casks/delve.rb
 ```
