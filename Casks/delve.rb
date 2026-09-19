@@ -2,8 +2,7 @@ cask "delve" do
   version "0.8.18"
   sha256 "43a514e8d876dd3a4454ea49b6dede8041875d5dbf39e5122ef26173e26e120f"
 
-  url "https://github.com/snacbot/delve-releases/releases/download/v#{version}/Delve-#{version}.dmg",
-      verified: "github.com/snacbot/delve-releases/"
+  url "https://github.com/snacbot/delve-releases/releases/download/v#{version}/Delve-#{version}.dmg"
   name "Delve"
   desc "Disk space analyzer with a GPU-rendered treemap"
   homepage "https://khaosstudio.com/delve/"
@@ -15,8 +14,8 @@ cask "delve" do
   end
 
   auto_updates true
-  depends_on macos: :tahoe
   depends_on arch: :arm64
+  depends_on macos: :tahoe
 
   app "Delve.app"
 
