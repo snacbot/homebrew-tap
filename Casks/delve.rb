@@ -1,6 +1,6 @@
 cask "delve" do
-  version "0.8.14"
-  sha256 "108b2bf1a3927384ab9457104f4497e69081b837ef3c8e82b64bae4eba063705"
+  version "0.8.18"
+  sha256 "43a514e8d876dd3a4454ea49b6dede8041875d5dbf39e5122ef26173e26e120f"
 
   url "https://github.com/snacbot/delve-releases/releases/download/v#{version}/Delve-#{version}.dmg",
       verified: "github.com/snacbot/delve-releases/"
