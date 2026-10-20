@@ -6,8 +6,8 @@
 
 <br>
 
-[![Casks](https://img.shields.io/badge/casks-1-a78ff2?style=flat-square&labelColor=060a0f)](Casks)
-[![macOS](https://img.shields.io/badge/macOS-26%2B-ffffff?style=flat-square&labelColor=060a0f)](https://khaosstudio.com/delve/specs/)
+[![Casks](https://img.shields.io/badge/casks-2-a78ff2?style=flat-square&labelColor=060a0f)](Casks)
+[![macOS](https://img.shields.io/badge/macOS-see_requirements-ffffff?style=flat-square&labelColor=060a0f)](#casks)
 [![Apple Silicon](https://img.shields.io/badge/Apple_Silicon-native-ffffff?style=flat-square&labelColor=060a0f)](https://khaosstudio.com/delve/specs/)
 
 Homebrew casks for [Khaos Studios](https://khaosstudio.com) apps.
@@ -20,6 +20,7 @@ Homebrew casks for [Khaos Studios](https://khaosstudio.com) apps.
 
 ```sh
 brew install --cask snacbot/tap/delve
+brew install --cask snacbot/tap/lantern
 ```
 
 Homebrew adds the tap for you on first use, so there's no separate `brew tap` step.
@@ -30,11 +31,17 @@ Homebrew adds the tap for you on first use, so there's no separate `brew tap` st
 | --- | --- | --- |
 | [`delve`](Casks/delve.rb) | **[Delve](https://khaosstudio.com/delve/)**, a disk space analyzer that maps your drive as one interactive treemap | macOS 26+, Apple Silicon |
 
+| [`lantern`](Casks/lantern.rb) | **[Lantern](https://khaosstudio.com/lantern/)**, monitor brightness control across your local network | macOS 13+, Apple Silicon or Intel |
+
+Use the full `snacbot/tap/lantern` name: Homebrew’s unqualified `lantern` cask is a different app. Both apps install `Lantern.app`, so they cannot share the same applications folder.
+
+Lantern ships from [snacbot/lantern-releases](https://github.com/snacbot/lantern-releases). Its current Mac release is a signed, notarized preview.
+
 Delve ships from [snacbot/delve-releases](https://github.com/snacbot/delve-releases). Everything else we make lives at [khaosstudio.com](https://khaosstudio.com).
 
 ## Updating on release
 
-Delve auto-updates through Sparkle, so its cask is `auto_updates true` and Homebrew stays out of the in-app updater's way. The cask still needs a version and sha bump each release so fresh installs land on the current build.
+Both apps auto-update through Sparkle, so their casks are `auto_updates true` and Homebrew stays out of the in-app updater's way. The cask still needs a version and sha bump each release so fresh installs land on the current build.
 
 ```sh
 VERSION=0.9.0
@@ -61,3 +68,12 @@ homebrew-cask has a [notability requirement](https://docs.brew.sh/Acceptable-Cas
 [Discord](https://discord.gg/UxfhSWavbQ)
 &nbsp;·&nbsp;
 [Privacy](https://khaosstudio.com/privacy.html)
+
+For Lantern, update `Casks/lantern.rb` after publishing each accepted Mac release.
+Use the immutable `mac-vVERSION/Lantern-VERSION.dmg` asset and its SHA-256, then run:
+
+```sh
+brew style --cask snacbot/tap/lantern
+brew audit --cask --online snacbot/tap/lantern
+brew fetch --cask snacbot/tap/lantern
+```
