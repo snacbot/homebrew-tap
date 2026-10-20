@@ -30,7 +30,6 @@ Homebrew adds the tap for you on first use, so there's no separate `brew tap` st
 | Cask | App | Requires |
 | --- | --- | --- |
 | [`delve`](Casks/delve.rb) | **[Delve](https://khaosstudio.com/delve/)**, a disk space analyzer that maps your drive as one interactive treemap | macOS 26+, Apple Silicon |
-
 | [`lantern`](Casks/lantern.rb) | **[Lantern](https://khaosstudio.com/lantern/)**, monitor brightness control across your local network | macOS 13+, Apple Silicon or Intel |
 
 Use the full `snacbot/tap/lantern` name: Homebrew’s unqualified `lantern` cask is a different app. Both apps install `Lantern.app`, so they cannot share the same applications folder.
@@ -39,21 +38,60 @@ Lantern ships from [snacbot/lantern-releases](https://github.com/snacbot/lantern
 
 Delve ships from [snacbot/delve-releases](https://github.com/snacbot/delve-releases). Everything else we make lives at [khaosstudio.com](https://khaosstudio.com).
 
-## Updating on release
+## Updates and removal
 
-Both apps auto-update through Sparkle, so their casks are `auto_updates true` and Homebrew stays out of the in-app updater's way. The cask still needs a version and sha bump each release so fresh installs land on the current build.
-
-```sh
-VERSION=0.9.0
-SHA=$(curl -sL "https://github.com/snacbot/delve-releases/releases/download/v$VERSION/Delve-$VERSION.dmg" | shasum -a 256 | cut -d' ' -f1)
-sed -i '' "s/version \".*\"/version \"$VERSION\"/; s/sha256 \".*\"/sha256 \"$SHA\"/" Casks/delve.rb
-```
-
-Verify before pushing. `brew fetch` re-downloads and checks the sha against the cask:
+Lantern and Delve include Sparkle automatic updates. Homebrew marks both casks
+`auto_updates true`; fresh installs use the version in this tap. To ask Homebrew
+to check apps with their own updater too:
 
 ```sh
-brew fetch --cask snacbot/tap/delve
+brew update
+brew upgrade --cask --greedy snacbot/tap/lantern
 ```
+
+Already installed Lantern manually? Quit it and let Homebrew adopt the matching app:
+
+```sh
+brew install --cask --adopt snacbot/tap/lantern
+```
+
+Remove the app with `brew uninstall --cask snacbot/tap/lantern`. Settings are
+preserved. Add `--zap` only if you also want to delete Lantern’s saved settings,
+presets and pairing data.
+
+## Automatic Lantern release updates
+
+The [public release repository’s workflow](https://github.com/snacbot/lantern-releases/actions/workflows/update-homebrew.yml)
+runs when a Mac release is published or edited, when `appcast.xml` changes on
+`main`, and on manual dispatch. It selects the highest build in the public Mac
+feed, confirms the matching `mac-vVERSION` release is published, downloads the
+immutable `Lantern-VERSION.dmg`, and verifies its size and SHA-256 against GitHub
+and the feed before committing the cask version and checksum here.
+
+Published Mac previews are supported. Drafts, Windows releases, unexpected URLs,
+checksum changes to existing versions, and downgrades cannot update the cask.
+Publishing the release before the feed is fine: the subsequent feed push triggers
+the sync again. No commit is made when the cask is current. Failed validation
+leaves the cask unchanged and appears in the workflow’s logs.
+
+The release repository stores `HOMEBREW_TAP_DEPLOY_KEY`, a write-enabled SSH deploy
+key scoped only to this tap. It grants no access to application source or other
+repositories. To rotate it, replace the tap deploy key and the release repository
+secret together. To resync, run **Update Lantern Homebrew cask** from the release
+repository’s Actions page.
+
+Updater checks:
+
+```sh
+python3 -m unittest discover -s scripts -p 'test_*.py'
+python3 scripts/update_lantern.py
+brew style --cask snacbot/tap/lantern
+brew audit --cask --online snacbot/tap/lantern
+brew fetch --cask snacbot/tap/lantern
+```
+
+Delve’s cask is maintained separately: bump `Casks/delve.rb` to the published
+version and SHA-256 of its immutable release DMG, then verify with Homebrew.
 
 ## Why a tap and not homebrew-cask core
 
@@ -65,15 +103,8 @@ homebrew-cask has a [notability requirement](https://docs.brew.sh/Acceptable-Cas
 &nbsp;·&nbsp;
 [Delve](https://khaosstudio.com/delve/)
 &nbsp;·&nbsp;
+[Lantern](https://khaosstudio.com/lantern/)
+&nbsp;·&nbsp;
 [Discord](https://discord.gg/UxfhSWavbQ)
 &nbsp;·&nbsp;
 [Privacy](https://khaosstudio.com/privacy.html)
-
-For Lantern, update `Casks/lantern.rb` after publishing each accepted Mac release.
-Use the immutable `mac-vVERSION/Lantern-VERSION.dmg` asset and its SHA-256, then run:
-
-```sh
-brew style --cask snacbot/tap/lantern
-brew audit --cask --online snacbot/tap/lantern
-brew fetch --cask snacbot/tap/lantern
-```
