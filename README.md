@@ -29,14 +29,14 @@ Homebrew adds the tap for you on first use, so there's no separate `brew tap` st
 
 | Cask | App | Requires |
 | --- | --- | --- |
-| [`delve`](Casks/delve.rb) | **[Delve](https://khaosstudio.com/delve/)**, a disk space analyzer that maps your drive as one interactive treemap | macOS 26+, Apple Silicon |
+| [`delve`](Casks/delve.rb) | **[Delve](https://khaosstudio.com/delve/)**, a disk space analyzer that maps your drive as one interactive treemap | macOS 12+, Apple Silicon |
 | [`lantern`](Casks/lantern.rb) | **[Lantern](https://khaosstudio.com/lantern/)**, monitor brightness control across your local network | macOS 13+, Apple Silicon or Intel |
 
 Use the full `snacbot/tap/lantern` name: Homebrew’s unqualified `lantern` cask is a different app. Both apps install `Lantern.app`, so they cannot share the same applications folder.
 
 Lantern ships from [snacbot/lantern-releases](https://github.com/snacbot/lantern-releases). Its current Mac release is a signed, notarized preview.
 
-Delve ships from [snacbot/delve-releases](https://github.com/snacbot/delve-releases). Everything else we make lives at [khaosstudio.com](https://khaosstudio.com).
+Delve ships from [snacbot/delve-releases](https://github.com/snacbot/delve-releases). Delve’s macOS requirement is separate from [Homebrew’s supported macOS versions](https://docs.brew.sh/Installation#macos-requirements). If Homebrew does not support your setup, use the [direct Mac download](https://khaosstudio.com/delve/download/Delve.dmg). Everything else we make lives at [khaosstudio.com](https://khaosstudio.com).
 
 ## Updates and removal
 

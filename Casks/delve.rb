@@ -1,6 +1,6 @@
 cask "delve" do
-  version "0.9.0"
-  sha256 "b7df441e039ca91e255757634bb96b6df73bb0921031a74f92b12869c78e5bd4"
+  version "0.14.4"
+  sha256 "917fb06bc40a3abea09073ef129c040a104526a6ab066c9222540b8634ef87a6"
 
   url "https://github.com/snacbot/delve-releases/releases/download/v#{version}/Delve-#{version}.dmg"
   name "Delve"
@@ -15,7 +15,7 @@ cask "delve" do
 
   auto_updates true
   depends_on arch: :arm64
-  depends_on macos: :tahoe
+  depends_on macos: :monterey
 
   app "Delve.app"
 
